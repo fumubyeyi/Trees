@@ -1,11 +1,11 @@
 ﻿namespace Tree.lib;
-public class Node<T>
+public class Node
 {
-    public T data;
-    public Node<T> left;
-    public Node<T> right;
+    public int data;
+    public Node? left;
+    public Node? right;
 
-    public Node<T>(T data){
+    public Node(int data){
         this.data = data;
         left = null;
         right = null;

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 namespace Tree.lib
 {
     public class BST
-     {
-        public Node<int> root;
+    {
+        public Node? root;
 
         public BST(){
             root = null;
@@ -16,27 +16,23 @@ namespace Tree.lib
         public void Insert(int value){
             root = InsertRecursive(value, root);
         }
-
-        public static void InsertRecursive(int value, Node<int> root){
-            Node<int> newNode = new(value);
-            if(root == null){ 
-                root = newNode;
+        public Node InsertRecursive(int value, Node? root){
+            if (root == null){
+                root = new Node(value);
                 return root;
             }
-            if (value < root.data){
+            if (root.data > value)
                 root.left = InsertRecursive(value, root.left);
-            }
-            else{
+            else 
                 root.right = InsertRecursive(value, root.right);
-            }  
-            return root;    
+            return root;
         }
 
-        public static Node<int> Search(int value){
+        public Node Search(int value){
             return SearchRecursive(value, root);
         }
 
-        public static Node<int> SearchRecursive(int value, Node<int> root){
+        public Node SearchRecursive(int value, Node root){
             if (root == null){
                 Console.WriteLine("Tree is empty.");
                 return null;
@@ -49,13 +45,13 @@ namespace Tree.lib
                 return SearchRecursive(value, root.right);
         }
 
-        public static Node<int> Delete(int value, Node<int> root){
-            Node<int> x = Search(value, root);
-            if ( x == null){
+        public Node Delete(int value, Node root){
+            Node x = Search(value);
+            if ( x == null)
                 return null;
-            }
-            Node<int> ret = x;
-            Node<int> parent;
+    
+            Node ret = x;
+            Node parent;
             if (IsLeaf(x)){
                 parent = GetParent(x, root);
                 if (parent.left.data == x.data)
@@ -73,7 +69,6 @@ namespace Tree.lib
                     else {
                             parent.left = x.right;                   
                     }
-                    return ret;
                 }
                 else {
                     if (x.right == null){
@@ -88,7 +83,7 @@ namespace Tree.lib
             }
             if(HasTwoChildren(x)){
                 parent = GetParent(x, root);
-                Node<int> i = GetInorderNode(x, root);
+                Node i = GetInOrderNode(x, root);
 
                 if (parent.left.data == x.data){
                     parent.left = i;
@@ -102,54 +97,57 @@ namespace Tree.lib
                 }
                 return ret;
             }
+            return ret;
         }
-        public static bool IsLeaf(Node<int> root){
+        public bool IsLeaf(Node root){
             return root.left == null && root.right == null;
         }
 
-        public static bool HasOneChild(Node<int> root){
-            return return ((root.left != null && root.right == null) || (root.left == null && root.right != null));
+        public bool HasOneChild(Node root){
+            return ((root.left != null && root.right == null) || (root.left == null && root.right != null));
         }
-        public static bool HasOneChild(Node<int> root){
+        public bool HasTwoChildren(Node root){
             return root.left != null && root.right != null;
         }
 
-        public static void Print(string type){
-            if (type == "Pre")
-                Pre_Order(root);
-            else if (type == "Post")
-                In_Order(root);
-            else
-                Post_Order(root);
-        }
-        public static void Pre_Order(Node<int> root){
-            if (root == null){
-                Console.WriteLine("Tree is empty.");
-                return;
-            }
-            Console.Write(root.data + " ");
-            Pre_Order(root.left);
-            Pre_Order(root.right);
+        public Node GetParent(Node child , Node root){
+            return root;
         }
 
-        public static void In_Order(Node<int> root){
-            if (root == null){
-                Console.WriteLine("Tree is empty.");
-                return;
-            }         
-            Pre_Order(root.left);
-            Console.Write(root.data + " ");
-            Pre_Order(root.right);
-           
+        public Node GetInOrderNode(Node node, Node root){
+            return root;
         }
-         public static void Post_Order(Node<int> root){
-            if (root == null){
-                Console.WriteLine("Tree is empty.");
-                return;
-            }         
-            Pre_Order(root.left);
-            Pre_Order(root.right);
-            Console.Write(root.data + " ");
+
+        public void Print(string type){
+            Console.Write("{0} Order Traversal:", type);
+            if (type == "Pre")
+                PreOrder(root);
+            else if (type == "Post")
+                PostOrder(root);
+            else
+                InOrder(root);
+        }
+        public void PreOrder(Node root){
+            if (root != null){
+                Console.Write(root.data + " ");
+                PreOrder(root.left);
+                PreOrder(root.right);
+            }
+        }
+
+        public void InOrder(Node root){
+            if (root != null){
+                InOrder(root.left);
+                Console.Write(root.data + " ");
+                InOrder(root.right);
+            }
+        }
+        public void PostOrder(Node root){
+            if (root != null){
+                PostOrder(root.left);
+                PostOrder(root.right);
+                Console.Write(root.data + " ");
+            }
         }
     }
 }
