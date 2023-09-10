@@ -8,7 +8,7 @@ namespace Tree.lib
     public class BST
     {
         public Node? root;
-
+        
         public BST(){
             root = null;
         }
@@ -148,6 +148,16 @@ namespace Tree.lib
                 PostOrder(root.right);
                 Console.Write(root.data + " ");
             }
+        }
+
+        public int Height(){
+            return GetHeight(root);
+        }
+
+        public int GetHeight(Node? root){
+            if (root == null || (root.left == null && root.right == null)) 
+                return 0;
+            return 1 + Math.Max(GetHeight(root.left), GetHeight(root.right));
         }
     }
 }

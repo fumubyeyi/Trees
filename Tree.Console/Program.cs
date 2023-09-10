@@ -14,3 +14,5 @@ tree.Print("In");
 Console.WriteLine();
 tree.Print("Post");
 Console.WriteLine();
+
+Console.WriteLine("Height of tree = {0}", tree.Height());
